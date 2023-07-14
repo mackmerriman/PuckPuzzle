@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'puckpuzzle/output.css' %}">
+    <link rel="stylesheet" href="{% static 'puckpuzzle/style.css' %}">
+    <title>{% block title %}PuckPuzzle{% endblock %}</title>
+</head>
+
+<body>
+    <div class="flex flex-col min-h-screen">
+        <div class="flex flex-row justify-between bg-black text-white">
+            <div class="flex items-center m-3 space-x-3">
+                <img src="../../static/puckpuzzle/images/favicon.jpg" class="w-12 h-12 invert" alt="PuckPuzzle Logo">
+                <h1 class="text-3xl">PuckPuzzle</h1>
+            </div>
+            <div class="flex items-center m-3">
+                <nav class="text-xl space-x-6">
+                    <a class="hover:text-orange-500" href="/">Menu 1</a>
+                    <a class="hover:text-orange-500" href="/">Menu 2</a>
+                </nav>
+            </div>
+        </div>
+        <hr class="h-3 bg-orange-500">
+        <!-- <div class="flex self-center justify-self-center"> -->
+        <div class="grid grid-cols-4 grid-rows-4 text-center self-center mt-8 shadow-xl">
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            </div>
+
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+            <div class="col-span-3 row-span-3 border border-black rounded border-collapse">
+                <table class="w-full h-full">
+                    <tr>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+            </div>
+        </div>
+        <!-- </div> -->
+        <div class="absolute bottom-0 w-full bg-black text-white text-center">
+            <hr class="h-3 bg-orange-500">
+            <p>Created by MM.</p>
+        </div>
+    </div>
+</body>
+
+</html>
