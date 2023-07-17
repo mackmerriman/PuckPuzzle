@@ -112,35 +112,35 @@
             <div class="col-span-3 row-span-3 overflow-hidden">
                 <table id="board" class="w-full h-full">
                     <tr>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}"
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}"
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}"
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
                     </tr>
                     <tr>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}"
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}"
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}"
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}" data-guesses=""
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}" data-guesses=""
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}" data-guesses=""
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}" data-guesses=""
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
                     </tr>
@@ -164,6 +164,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
     <!-- Show how to play modal -->
     <script>
         $(document).ready(function () {
@@ -174,6 +175,7 @@
             $('#my-modal').removeClass('hidden');
         });
     </script>
+
 
     <!-- Hide how to play modal -->
     <script>
@@ -188,6 +190,7 @@
         });
     </script>
 
+
     <!-- Hide guess modal -->
     <script>
         $('#guessclose').on('click', function () {
@@ -201,10 +204,51 @@
         });
     </script>
 
+
+    <!-- After box is clicked on -->
+    <script>
+        $("#board").on("click", "td:not(.guessed-right)", function () {
+            var clickedBox = $(this);
+            $('#guess-modal').removeClass('hidden');
+            $('#guess-modal').data('selectedBox', clickedBox);
+            $('#search').val('')
+            $('#search').focus()
+            $('#results').empty();
+        });
+    </script>
+
+
     <!-- AJAX search in guess modal -->
     <script>
+        function renderResults(results, previousGuesses) {
+            $('#results').empty(); // clear any previous results
+            results.forEach(function (result) {
+                var resultElem = $('<div>');
+                var playerName = result; // assuming result.name contains the player name
+                var button = $('<button>').text('Choose');
+                resultElem.addClass('flex justify-between items-center mx-2 mb-2 p-4');
+                button.addClass('rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert')
+
+                // If this player has already been guessed for the current square, mark the result as incorrect
+                if (previousGuesses.includes(playerName)) {
+                    resultElem.addClass('bg-red-500');
+                    button.text('Incorrect');
+                    button.addClass('bg-red-500');
+                    button.removeClass('hover:invert');
+                    button.attr('disabled', true);
+                }
+
+                var playerInfo = $('<p>').text(playerName);
+                resultElem.append(playerInfo);
+                resultElem.append(button);
+                $('#results').append(resultElem);
+            });
+        }
+
         $('#search').on('input', function () {
             let query = $(this).val();
+            selectedBox = $('#guess-modal').data('selectedBox');
+            var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];
 
             if (query === '') {
                 $('#results').empty()
@@ -217,10 +261,8 @@
                             q: query
                         },
                         success: function (data) {
-                            $('#results').empty()
-                            for (var i = 0; i < data.length; i++) {
-                                $('#results').append('<div class="flex justify-between items-center mx-2 mb-2 p-4"><p>' + data[i] + '</p><button type="button" class="rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">Choose</button></div>');
-                            }
+                            $('#results').empty();
+                            renderResults(data, previousGuesses);
                         }
                     }
                 )
@@ -228,30 +270,17 @@
         });
     </script>
 
-    <!-- After box is clicked on -->
-    <script>
-        $("#board").on("click", "td:not(.guessed-right)", function () {
-            var clickedBox = $(this);
-            $('#guess-modal').removeClass('hidden');
-            $('#guess-modal').data('selectedBox', clickedBox);
-            $('#search').val('')
-        });
-    </script>
 
     <!-- When a user guesses a player -->
     <script>
         $('#results').on('click', 'button', function () {
-            var button = $(this)
-            // Get the player's name from the sibling <p> tag
+            var button = $(this);
             var playerName = $(this).siblings('p').text();
-
-            // Get the selected box from the modal's data
             var selectedBox = $('#guess-modal').data('selectedBox');
 
-            row = selectedBox.data('row-team')
-            col = selectedBox.data('col-team')
+            row = selectedBox.data('row-team');
+            col = selectedBox.data('col-team');
 
-            // Make an API request to check if the guess is correct
             $.ajax({
                 type: "GET",
                 url: "api/check",
@@ -262,23 +291,28 @@
                 },
                 success: function (data) {
                     if (data['result']) {
-                        // If the guess is correct, fill in the square with the player's name
                         selectedBox.text(playerName);
-                        selectedBox.addClass('bg-green-400 guessed-right')
-                        selectedBox.removeClass('hover:bg-slate-200 cursor-pointer')
+                        selectedBox.addClass('bg-green-500 guessed-right');
+                        selectedBox.removeClass('hover:bg-slate-200 cursor-pointer');
+                        selectedBox.data('guesses', '');
                         $('#guess-modal').addClass('hidden');
                     } else {
-                        // If the guess is not correct, mark the player in red
-                        button.parent().addClass('bg-red-400')
-                        button.text('Incorrect')
-                        button.addClass('bg-red-400')
-                        button.removeClass('hover:invert')
+                        button.parent().addClass('bg-red-500');
+                        button.text('Incorrect');
+                        button.addClass('bg-red-500');
+                        button.removeClass('hover:invert');
                         button.attr('disabled', true);
+                        var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];
+                        previousGuesses.push(playerName);
+                        selectedBox.data('guesses', previousGuesses.join(','));
                     }
                 }
             });
         });
     </script>
+
+
 </body>
+
 
 </html>
