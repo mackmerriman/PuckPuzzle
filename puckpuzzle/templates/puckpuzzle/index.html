@@ -10,68 +10,275 @@
 
 <body>
     <div class="flex flex-col min-h-screen">
+
+        <!-- Header container -->
         <div class="flex flex-row justify-between bg-black text-white">
             <div class="flex items-center m-3 space-x-3">
                 <img src="../../static/puckpuzzle/images/favicon.jpg" class="w-12 h-12 invert" alt="PuckPuzzle Logo">
-                <h1 class="text-3xl">PuckPuzzle</h1>
+                <h1 class="text-3xl cursor-default">PuckPuzzle</h1>
             </div>
             <div class="flex items-center m-3">
                 <nav class="text-xl space-x-6">
-                    <a class="hover:text-orange-500" href="/">Menu 1</a>
+                    <a id="howtoplay" class="hover:text-orange-500 cursor-pointer">How To Play</a>
                     <a class="hover:text-orange-500" href="/">Menu 2</a>
                 </nav>
             </div>
         </div>
-        <hr class="h-3 bg-orange-500">
-        <!-- <div class="flex self-center justify-self-center"> -->
-        <div class="grid grid-cols-4 grid-rows-4 text-center self-center mt-8 shadow-xl">
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-            </div>
 
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+        <!-- How to play modal -->
+        <div id="my-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex justify-center items-center min-h-screen text-center">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div id="mybox" class="bg-white transform p-10">
+                    <div>
+                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                            Welcome to PuckPuzzle! Here are some rules.
+                        </h1>
+                    </div>
+                    <div>
+                        <ul class="list-disc text-left">
+                            <li>Guesses cannot be reversed.</li>
+                            <li>Every guess counts as a shot.</li>
+                            <li>Choose a past or present NHL player who has played for the team / completed the accolade
+                                in the corresponding row and column.</li>
+                            <li>For the accolades column, the answer will still be correct if the player completed the
+                                accolade with a different team than in the corresponding row.</li>
+                            <li>A player can only be used once.</li>
+                            <li>A new game will be available every day!</li>
+                        </ul>
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" id="howtoplayclose"
+                            class="w-full rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guessing modal -->
+        <div id="guess-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex justify-center items-center min-h-screen">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-200"></div>
+                <div id="guessbox" class="bg-white text-center transform p-10 max-h-3/4 w-1/2">
+                    <div>
+                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                            Make your guess here.
+                        </h1>
+                    </div>
+                    <div class="mt-5">
+                        <input type="text" id="search" placeholder="Search for a player..."
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-black font-medium">
+                    </div>
+                    <div class="mt-5 overflow-auto max-h-56" id="results">
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" id="guessclose"
+                            class="w-full rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main grid container -->
+        <div class="grid grid-cols-4 grid-rows-4 text-center self-center mt-8">
+            <div class="flex flex-col justify-center items-center w-36 h-36 overflow-hidden">
+                <div class="text-2xl font-bold">
+                    <h1>Shots left:</h1>
+                </div>
+                <div class="text-2xl">
+                    <p id="score">12</p>
+                </div>
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.0|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.0}} Logo">
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.1|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.1}} Logo">
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.2|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.2}} Logo">
             </div>
-            <div class="col-span-3 row-span-3 border border-black rounded border-collapse">
-                <table class="w-full h-full">
+            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.3|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.3}} Logo">
+            </div>
+            <div class="col-span-3 row-span-3 overflow-hidden">
+                <table id="board" class="w-full h-full">
                     <tr>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
                     </tr>
                     <tr>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
                     </tr>
                     <tr>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
-                        <td class="border-2 border-black hover:bg-gray-300 cursor-pointer"></td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
                     </tr>
                 </table>
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.4|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.4}} Logo">
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
-                <img src="{% static 'puckpuzzle/images/nhl.png' %}" class="h-3/4 w-auto" alt="Image 2 Description">
+                <img src="{% static 'puckpuzzle/images/logos/'|add:teams.5|add:'.svg.png' %}"
+                    class="object-contain w-3/4" alt="{{teams.5}} Logo">
             </div>
         </div>
-        <!-- </div> -->
-        <div class="absolute bottom-0 w-full bg-black text-white text-center">
-            <hr class="h-3 bg-orange-500">
+
+        <!-- Footer -->
+        <div class="absolute bottom-0 w-full bg-black text-white text-center cursor-default">
             <p>Created by MM.</p>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Show how to play modal -->
+    <script>
+        $(document).ready(function () {
+            $('#my-modal').removeClass('hidden')
+        });
+
+        $('#howtoplay').on('click', function () {
+            $('#my-modal').removeClass('hidden');
+        });
+    </script>
+
+    <!-- Hide how to play modal -->
+    <script>
+        $('#howtoplayclose').on('click', function () {
+            $('#my-modal').addClass('hidden');
+        });
+
+        $('#my-modal').on('click', function (event) {
+            if (!$(event.target).closest('#mybox').length) {
+                $('#my-modal').addClass('hidden');
+            }
+        });
+    </script>
+
+    <!-- Hide guess modal -->
+    <script>
+        $('#guessclose').on('click', function () {
+            $('#guess-modal').addClass('hidden');
+        });
+
+        $('#guess-modal').on('click', function (event) {
+            if (!$(event.target).closest('#guessbox').length) {
+                $('#guess-modal').addClass('hidden');
+            }
+        });
+    </script>
+
+    <!-- AJAX search in guess modal -->
+    <script>
+        $('#search').on('input', function () {
+            let query = $(this).val();
+
+            if (query === '') {
+                $('#results').empty()
+            } else {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "api/search",
+                        data: {
+                            q: query
+                        },
+                        success: function (data) {
+                            $('#results').empty()
+                            for (var i = 0; i < data.length; i++) {
+                                $('#results').append('<div class="flex justify-between items-center mx-2 mb-2 p-4"><p>' + data[i] + '</p><button type="button" class="rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">Choose</button></div>');
+                            }
+                        }
+                    }
+                )
+            }
+        });
+    </script>
+
+    <!-- After box is clicked on -->
+    <script>
+        $("#board").on("click", "td:not(.guessed-right)", function () {
+            var clickedBox = $(this);
+            $('#guess-modal').removeClass('hidden');
+            $('#guess-modal').data('selectedBox', clickedBox);
+            $('#search').val('')
+        });
+    </script>
+
+    <!-- When a user guesses a player -->
+    <script>
+        $('#results').on('click', 'button', function () {
+            var button = $(this)
+            // Get the player's name from the sibling <p> tag
+            var playerName = $(this).siblings('p').text();
+
+            // Get the selected box from the modal's data
+            var selectedBox = $('#guess-modal').data('selectedBox');
+
+            row = selectedBox.data('row-team')
+            col = selectedBox.data('col-team')
+
+            // Make an API request to check if the guess is correct
+            $.ajax({
+                type: "GET",
+                url: "api/check",
+                data: {
+                    player: playerName,
+                    row: row,
+                    col: col
+                },
+                success: function (data) {
+                    if (data['result']) {
+                        // If the guess is correct, fill in the square with the player's name
+                        selectedBox.text(playerName);
+                        selectedBox.addClass('bg-green-400 guessed-right')
+                        selectedBox.removeClass('hover:bg-slate-200 cursor-pointer')
+                        $('#guess-modal').addClass('hidden');
+                    } else {
+                        // If the guess is not correct, mark the player in red
+                        button.parent().addClass('bg-red-400')
+                        button.text('Incorrect')
+                        button.addClass('bg-red-400')
+                        button.removeClass('hover:invert')
+                        button.attr('disabled', true);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -9,39 +9,85 @@ from django.db import models
 
 
 class Players(models.Model):
-    player = models.TextField(db_column='Player', blank=True, null=True)  # Field name made lowercase.
-    anaheim = models.IntegerField(db_column='Anaheim', blank=True, null=True)  # Field name made lowercase.
-    arizona = models.IntegerField(db_column='Arizona', blank=True, null=True)  # Field name made lowercase.
-    boston = models.IntegerField(db_column='Boston', blank=True, null=True)  # Field name made lowercase.
-    buffalo = models.IntegerField(db_column='Buffalo', blank=True, null=True)  # Field name made lowercase.
-    calgary = models.IntegerField(db_column='Calgary', blank=True, null=True)  # Field name made lowercase.
-    carolina = models.IntegerField(db_column='Carolina', blank=True, null=True)  # Field name made lowercase.
-    chicago = models.IntegerField(db_column='Chicago', blank=True, null=True)  # Field name made lowercase.
-    colorado = models.IntegerField(db_column='Colorado', blank=True, null=True)  # Field name made lowercase.
-    columbus = models.IntegerField(db_column='Columbus', blank=True, null=True)  # Field name made lowercase.
-    dallas = models.IntegerField(db_column='Dallas', blank=True, null=True)  # Field name made lowercase.
-    detroit = models.IntegerField(db_column='Detroit', blank=True, null=True)  # Field name made lowercase.
-    edmonton = models.IntegerField(db_column='Edmonton', blank=True, null=True)  # Field name made lowercase.
-    florida = models.IntegerField(db_column='Florida', blank=True, null=True)  # Field name made lowercase.
-    los_angeles = models.IntegerField(db_column='Los Angeles', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    minnesota = models.IntegerField(db_column='Minnesota', blank=True, null=True)  # Field name made lowercase.
-    montreal = models.IntegerField(db_column='Montreal', blank=True, null=True)  # Field name made lowercase.
-    nashville = models.IntegerField(db_column='Nashville', blank=True, null=True)  # Field name made lowercase.
-    new_jersey = models.IntegerField(db_column='New Jersey', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    new_york_islanders = models.IntegerField(db_column='New York Islanders', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    new_york_rangers = models.IntegerField(db_column='New York Rangers', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    ottawa = models.IntegerField(db_column='Ottawa', blank=True, null=True)  # Field name made lowercase.
-    philadelphia = models.IntegerField(db_column='Philadelphia', blank=True, null=True)  # Field name made lowercase.
-    pittsburgh = models.IntegerField(db_column='Pittsburgh', blank=True, null=True)  # Field name made lowercase.
-    san_jose = models.IntegerField(db_column='San Jose', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    st_louis = models.IntegerField(db_column='St. Louis', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    tampa_bay = models.IntegerField(db_column='Tampa Bay', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    toronto = models.IntegerField(db_column='Toronto', blank=True, null=True)  # Field name made lowercase.
-    vancouver = models.IntegerField(db_column='Vancouver', blank=True, null=True)  # Field name made lowercase.
-    vegas = models.IntegerField(db_column='Vegas', blank=True, null=True)  # Field name made lowercase.
-    washington = models.IntegerField(db_column='Washington', blank=True, null=True)  # Field name made lowercase.
-    winnipeg = models.IntegerField(db_column='Winnipeg', blank=True, null=True)  # Field name made lowercase.
-    seattle = models.IntegerField(db_column='Seattle', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    player = models.TextField(
+        db_column='Player', blank=True, null=False, primary_key=True)
+    # Field name made lowercase.
+    anaheim = models.IntegerField(db_column='Anaheim', blank=True, null=True)
+    # Field name made lowercase.
+    arizona = models.IntegerField(db_column='Arizona', blank=True, null=True)
+    # Field name made lowercase.
+    boston = models.IntegerField(db_column='Boston', blank=True, null=True)
+    # Field name made lowercase.
+    buffalo = models.IntegerField(db_column='Buffalo', blank=True, null=True)
+    # Field name made lowercase.
+    calgary = models.IntegerField(db_column='Calgary', blank=True, null=True)
+    # Field name made lowercase.
+    carolina = models.IntegerField(db_column='Carolina', blank=True, null=True)
+    # Field name made lowercase.
+    chicago = models.IntegerField(db_column='Chicago', blank=True, null=True)
+    # Field name made lowercase.
+    colorado = models.IntegerField(db_column='Colorado', blank=True, null=True)
+    # Field name made lowercase.
+    columbus = models.IntegerField(db_column='Columbus', blank=True, null=True)
+    # Field name made lowercase.
+    dallas = models.IntegerField(db_column='Dallas', blank=True, null=True)
+    # Field name made lowercase.
+    detroit = models.IntegerField(db_column='Detroit', blank=True, null=True)
+    # Field name made lowercase.
+    edmonton = models.IntegerField(db_column='Edmonton', blank=True, null=True)
+    # Field name made lowercase.
+    florida = models.IntegerField(db_column='Florida', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    los_angeles = models.IntegerField(
+        db_column='Los Angeles', blank=True, null=True)
+    # Field name made lowercase.
+    minnesota = models.IntegerField(
+        db_column='Minnesota', blank=True, null=True)
+    # Field name made lowercase.
+    montreal = models.IntegerField(db_column='Montreal', blank=True, null=True)
+    # Field name made lowercase.
+    nashville = models.IntegerField(
+        db_column='Nashville', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    new_jersey = models.IntegerField(
+        db_column='New Jersey', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    new_york_islanders = models.IntegerField(
+        db_column='New York Islanders', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    new_york_rangers = models.IntegerField(
+        db_column='New York Rangers', blank=True, null=True)
+    # Field name made lowercase.
+    ottawa = models.IntegerField(db_column='Ottawa', blank=True, null=True)
+    # Field name made lowercase.
+    philadelphia = models.IntegerField(
+        db_column='Philadelphia', blank=True, null=True)
+    # Field name made lowercase.
+    pittsburgh = models.IntegerField(
+        db_column='Pittsburgh', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    san_jose = models.IntegerField(db_column='San Jose', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    st_louis = models.IntegerField(
+        db_column='St Louis', blank=True, null=True)
+    # Field name made lowercase. Field renamed to remove unsuitable characters.
+    tampa_bay = models.IntegerField(
+        db_column='Tampa Bay', blank=True, null=True)
+    # Field name made lowercase.
+    toronto = models.IntegerField(db_column='Toronto', blank=True, null=True)
+    # Field name made lowercase.
+    vancouver = models.IntegerField(
+        db_column='Vancouver', blank=True, null=True)
+    # Field name made lowercase.
+    vegas = models.IntegerField(db_column='Vegas', blank=True, null=True)
+    # Field name made lowercase.
+    washington = models.IntegerField(
+        db_column='Washington', blank=True, null=True)
+    # Field name made lowercase.
+    winnipeg = models.IntegerField(db_column='Winnipeg', blank=True, null=True)
+    # Field name made lowercase.
+    seattle = models.IntegerField(db_column='Seattle', blank=True, null=True)
     hart = models.IntegerField(blank=True, null=True)
     ladybyng = models.IntegerField(blank=True, null=True)
     vezina = models.IntegerField(blank=True, null=True)
@@ -49,11 +95,20 @@ class Players(models.Model):
     artross = models.IntegerField(blank=True, null=True)
     connsmythe = models.IntegerField(blank=True, null=True)
     tedlindsay = models.IntegerField(blank=True, null=True)
-    number_50goals = models.IntegerField(db_column='50goals', blank=True, null=True)  # Field renamed because it wasn't a valid Python identifier.
-    number_100points = models.IntegerField(db_column='100points', blank=True, null=True)  # Field renamed because it wasn't a valid Python identifier.
-    number_70assists = models.IntegerField(db_column='70assists', blank=True, null=True)  # Field renamed because it wasn't a valid Python identifier.
-    number_5shutouts = models.IntegerField(db_column='5shutouts', blank=True, null=True)  # Field renamed because it wasn't a valid Python identifier.
-    number_1st = models.IntegerField(db_column='1st', blank=True, null=True)  # Field renamed because it wasn't a valid Python identifier.
+    # Field renamed because it wasn't a valid Python identifier.
+    number_50goals = models.IntegerField(
+        db_column='50goals', blank=True, null=True)
+    # Field renamed because it wasn't a valid Python identifier.
+    number_100points = models.IntegerField(
+        db_column='100points', blank=True, null=True)
+    # Field renamed because it wasn't a valid Python identifier.
+    number_70assists = models.IntegerField(
+        db_column='70assists', blank=True, null=True)
+    # Field renamed because it wasn't a valid Python identifier.
+    number_5shutouts = models.IntegerField(
+        db_column='5shutouts', blank=True, null=True)
+    # Field renamed because it wasn't a valid Python identifier.
+    number_1st = models.IntegerField(db_column='1st', blank=True, null=True)
     top10 = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -132,7 +187,8 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        'DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     action_time = models.DateTimeField()
 
