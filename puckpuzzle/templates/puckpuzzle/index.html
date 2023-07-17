@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <!-- Main container -->
     <div class="flex flex-col min-h-screen">
 
         <!-- Header container -->
@@ -20,7 +21,6 @@
             <div class="flex items-center m-3">
                 <nav class="text-xl space-x-6">
                     <a id="howtoplay" class="hover:text-orange-500 cursor-pointer">How To Play</a>
-                    <a class="hover:text-orange-500" href="/">Menu 2</a>
                 </nav>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="mt-5">
                         <button type="button" id="howtoplayclose"
-                            class="w-full rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">
+                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">
                             Close
                         </button>
                     </div>
@@ -69,13 +69,14 @@
                     </div>
                     <div class="mt-5">
                         <input type="text" id="search" placeholder="Search for a player..."
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-black font-medium">
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-black font-medium"
+                            autocomplete="off" autocorrect="off" spellcheck="false">
                     </div>
                     <div class="mt-5 overflow-auto max-h-56" id="results">
                     </div>
                     <div class="mt-5">
                         <button type="button" id="guessclose"
-                            class="w-full rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            class="w-full border border-slate-300 rounded-md px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
                             Close
                         </button>
                     </div>
@@ -226,8 +227,8 @@
                 var resultElem = $('<div>');
                 var playerName = result; // assuming result.name contains the player name
                 var button = $('<button>').text('Choose');
-                resultElem.addClass('flex justify-between items-center mx-2 mb-2 p-4');
-                button.addClass('rounded-md border border-slatebg-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert')
+                resultElem.addClass('flex justify-between items-center mx-2 p-2');
+                button.addClass('rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert')
 
                 // If this player has already been guessed for the current square, mark the result as incorrect
                 if (previousGuesses.includes(playerName)) {
@@ -235,6 +236,8 @@
                     button.text('Incorrect');
                     button.addClass('bg-red-500');
                     button.removeClass('hover:invert');
+                    button.removeClass('border');
+                    button.removeClass('border-slate-300');
                     button.attr('disabled', true);
                 }
 
@@ -292,16 +295,22 @@
                 success: function (data) {
                     if (data['result']) {
                         selectedBox.text(playerName);
-                        selectedBox.addClass('bg-green-500 guessed-right');
-                        selectedBox.removeClass('hover:bg-slate-200 cursor-pointer');
+                        selectedBox.addClass('bg-green-500');
+                        selectedBox.addClass('guessed-right');
+                        selectedBox.removeClass('hover:bg-slate-200');
+                        selectedBox.removeClass('cursor-pointer');
                         selectedBox.data('guesses', '');
+
                         $('#guess-modal').addClass('hidden');
                     } else {
                         button.parent().addClass('bg-red-500');
                         button.text('Incorrect');
                         button.addClass('bg-red-500');
                         button.removeClass('hover:invert');
+                        button.removeClass('border');
+                        button.removeClass('border-slate-300');
                         button.attr('disabled', true);
+
                         var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];
                         previousGuesses.push(playerName);
                         selectedBox.data('guesses', previousGuesses.join(','));
