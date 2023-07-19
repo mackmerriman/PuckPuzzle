@@ -49,7 +49,7 @@
                     </div>
                     <div class="mt-5">
                         <button type="button" id="howtoplayclose"
-                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert">
+                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
                             Close
                         </button>
                     </div>
@@ -85,13 +85,13 @@
         </div>
 
         <!-- Main grid container -->
-        <div class="grid grid-cols-4 grid-rows-4 text-center self-center mt-8">
+        <div class="grid grid-cols-4 grid-rows-4 text-center self-center">
             <div class="flex flex-col justify-center items-center w-36 h-36 overflow-hidden">
                 <div class="text-2xl font-bold">
                     <h1>Shots left:</h1>
                 </div>
                 <div class="text-2xl">
-                    <p id="score">12</p>
+                    <p id="score">9</p>
                 </div>
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
@@ -225,24 +225,30 @@
             $('#results').empty(); // clear any previous results
             results.forEach(function (result) {
                 var resultElem = $('<div>');
-                var playerName = result; // assuming result.name contains the player name
+                var playerName = result['player']; // assuming result.name contains the player name
+                var playerYears = result['years']
                 var button = $('<button>').text('Choose');
                 resultElem.addClass('flex justify-between items-center mx-2 p-2');
-                button.addClass('rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert')
+                button.addClass('rounded-md border border-slate-300 bg-white px-4 py-2 text-black font-medium hover:invert duration-200');
 
                 // If this player has already been guessed for the current square, mark the result as incorrect
                 if (previousGuesses.includes(playerName)) {
                     resultElem.addClass('bg-red-500');
                     button.text('Incorrect');
+                    // button.removeClass('hover:invert');
+                    button.removeClass('border hover:invert border-slate-300 bg-white');
+                    // button.removeClass('border-slate-300');
+                    // button.removeClass('bg-white');
                     button.addClass('bg-red-500');
-                    button.removeClass('hover:invert');
-                    button.removeClass('border');
-                    button.removeClass('border-slate-300');
                     button.attr('disabled', true);
                 }
 
-                var playerInfo = $('<p>').text(playerName);
-                resultElem.append(playerInfo);
+                var nameAndYears = $('<div>').addClass('flex flex-col text-left')
+                var playerInfo = $('<p>').addClass('player-name').text(playerName);
+                var playerYears = $('<p>').text(playerYears);
+                playerYears.addClass('text-xs')
+                nameAndYears.append(playerInfo).append(playerYears)
+                resultElem.append(nameAndYears);
                 resultElem.append(button);
                 $('#results').append(resultElem);
             });
@@ -278,7 +284,8 @@
     <script>
         $('#results').on('click', 'button', function () {
             var button = $(this);
-            var playerName = $(this).siblings('p').text();
+            var playerName = $(this).siblings('div').children('.player-name').text();
+            console.log(playerName)
             var selectedBox = $('#guess-modal').data('selectedBox');
 
             row = selectedBox.data('row-team');
@@ -295,20 +302,18 @@
                 success: function (data) {
                     if (data['result']) {
                         selectedBox.text(playerName);
-                        selectedBox.addClass('bg-green-500');
-                        selectedBox.addClass('guessed-right');
                         selectedBox.removeClass('hover:bg-slate-200');
                         selectedBox.removeClass('cursor-pointer');
+                        selectedBox.addClass('bg-green-500');
+                        selectedBox.addClass('guessed-right');
                         selectedBox.data('guesses', '');
 
                         $('#guess-modal').addClass('hidden');
                     } else {
                         button.parent().addClass('bg-red-500');
                         button.text('Incorrect');
+                        button.removeClass('hover:invert border border-slate-300 bg-white');
                         button.addClass('bg-red-500');
-                        button.removeClass('hover:invert');
-                        button.removeClass('border');
-                        button.removeClass('border-slate-300');
                         button.attr('disabled', true);
 
                         var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];

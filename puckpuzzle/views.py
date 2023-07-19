@@ -3,6 +3,7 @@ import random
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse, HttpResponse
 from django.views import View
+from django.db.models import Q
 from .models import Players
 
 # from .models import Question EXAMPLE
@@ -21,8 +22,10 @@ def index(request):
 def filterPlayers(request):
     if request.method == 'GET':
         name = request.GET['q']
+
         players = list(Players.objects.filter(
-            player__startswith=name).values_list("player", flat=True))
+            Q(first__startswith=name) | Q(last__startswith=name) | Q(player__startswith=name)).values())
+
         return JsonResponse(players, safe=False)
     else:
         return HttpResponse("Request method is not a GET")
@@ -30,15 +33,11 @@ def filterPlayers(request):
 
 def checkPlayer(request):
     if request.method == 'GET':
-        player = request.GET['player']
+        guess = request.GET['player']
+        print('Player: ' + guess)
         row = request.GET['row'].lower().replace(' ', '_')
         col = request.GET['col'].lower().replace(' ', '_')
-        check = Players.objects.get(pk=player)
-
-        print(row)
-        print(col)
-        print(getattr(check, row))
-        print(getattr(check, col))
+        check = Players.objects.get(player=guess)
 
         if getattr(check, row) == 0:
             return JsonResponse({'result': False})

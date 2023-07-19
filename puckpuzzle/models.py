@@ -10,8 +10,12 @@ from django.db import models
 
 class Players(models.Model):
     # Field name made lowercase.
-    player = models.TextField(
-        db_column='Player', blank=True, null=False, primary_key=True)
+    id = models.TextField(
+        db_column='id', blank=True, null=False, primary_key=True)
+    years = models.TextField(db_column='Years', blank=True, null=False)
+    first = models.TextField(db_column='First', blank=False, null=False)
+    last = models.TextField(db_column='Last', blank=False, null=False)
+    player = models.TextField(db_column='Player', blank=False, null=False)
     # Field name made lowercase.
     anaheim = models.IntegerField(db_column='Anaheim', blank=True, null=True)
     # Field name made lowercase.
@@ -96,20 +100,21 @@ class Players(models.Model):
     connsmythe = models.IntegerField(blank=True, null=True)
     tedlindsay = models.IntegerField(blank=True, null=True)
     # Field renamed because it wasn't a valid Python identifier.
-    number_50goals = models.IntegerField(
-        db_column='50goals', blank=True, null=True)
+    fiftygoals = models.IntegerField(
+        db_column='fiftygoals', blank=True, null=True)
     # Field renamed because it wasn't a valid Python identifier.
-    number_100points = models.IntegerField(
-        db_column='100points', blank=True, null=True)
+    hundredpoints = models.IntegerField(
+        db_column='hundredpoints', blank=True, null=True)
     # Field renamed because it wasn't a valid Python identifier.
-    number_70assists = models.IntegerField(
-        db_column='70assists', blank=True, null=True)
+    seventyassists = models.IntegerField(
+        db_column='seventyassists', blank=True, null=True)
     # Field renamed because it wasn't a valid Python identifier.
-    number_5shutouts = models.IntegerField(
-        db_column='5shutouts', blank=True, null=True)
+    fiveshutouts = models.IntegerField(
+        db_column='fiveshutouts', blank=True, null=True)
     # Field renamed because it wasn't a valid Python identifier.
-    number_1st = models.IntegerField(db_column='1st', blank=True, null=True)
-    top10 = models.IntegerField(blank=True, null=True)
+    firstoverall = models.IntegerField(
+        db_column='firstoverall', blank=True, null=True)
+    topten = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
