@@ -3,20 +3,18 @@ import random
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse, HttpResponse
 from django.views import View
+from django.utils import timezone
 from django.db.models import Q
-from .models import Players
+from .models import Players, DailyGame
 
 # from .models import Question EXAMPLE
 
 
 # ...
 def index(request):
-    teams_dir = os.path.join(os.path.dirname(
-        __file__), './static/puckpuzzle/images/logos')
-    teams = [f.split('.')[0] for f in os.listdir(teams_dir)
-             if os.path.isfile(os.path.join(teams_dir, f))]
-    selected_teams = random.sample(teams, 6)
-    return render(request, 'puckpuzzle/index.html', {'teams': selected_teams})
+    today = timezone.now().date()
+    game = DailyGame.objects.get(date=today)
+    return render(request, 'puckpuzzle/index.html', {'teams': game.teams})
 
 
 def filterPlayers(request):
@@ -34,10 +32,9 @@ def filterPlayers(request):
 def checkPlayer(request):
     if request.method == 'GET':
         guess = request.GET['player']
-        print('Player: ' + guess)
         row = request.GET['row'].lower().replace(' ', '_')
         col = request.GET['col'].lower().replace(' ', '_')
-        check = Players.objects.get(player=guess)
+        check = Players.objects.get(pk=guess)
 
         if getattr(check, row) == 0:
             return JsonResponse({'result': False})

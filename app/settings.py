@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_celery_beat',
     "puckpuzzle.apps.PuckpuzzleConfig",
     'django.contrib.admin',
     'django.contrib.auth',

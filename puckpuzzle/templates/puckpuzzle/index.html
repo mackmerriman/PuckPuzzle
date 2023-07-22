@@ -43,7 +43,6 @@
                                 in the corresponding row and column.</li>
                             <li>For the accolades column, the answer will still be correct if the player completed the
                                 accolade with a different team than in the corresponding row.</li>
-                            <li>A player can only be used once.</li>
                             <li>A new game will be available every day!</li>
                         </ul>
                     </div>
@@ -84,6 +83,41 @@
             </div>
         </div>
 
+        <!-- Game over modal -->
+        <div id="gameover-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex justify-center items-center min-h-screen text-center">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div id="gameoverbox" class="bg-white transform p-10">
+                    <div>
+                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                            Game Over
+                        </h1>
+                    </div>
+                    <div id="finalscore" class="flex flex-col mt-5">
+                        <p class="text-lg">Final Score:</p>
+                        <p class="text-2xl font-bold"></p>
+                    </div>
+                    <div id="result-grid" class="grid grid-cols-3 grid-rows-3 gap-2 w-52 h-52 mt-5">
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                        <div class="bg-slate-300 rounded-xl"></div>
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" id="gameoverclose"
+                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main grid container -->
         <div class="grid grid-cols-4 grid-rows-4 text-center self-center">
             <div class="flex flex-col justify-center items-center w-36 h-36 overflow-hidden">
@@ -91,7 +125,7 @@
                     <h1>Shots left:</h1>
                 </div>
                 <div class="text-2xl">
-                    <p id="score">9</p>
+                    <p id="score"></p>
                 </div>
             </div>
             <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
@@ -113,35 +147,44 @@
             <div class="col-span-3 row-span-3 overflow-hidden">
                 <table id="board" class="w-full h-full">
                     <tr>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}" data-guesses=""
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}" data-guesses="" data-row="0"
+                            data-col="0"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}" data-guesses=""
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}" data-guesses="" data-row="0"
+                            data-col="1"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}" data-guesses=""
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}" data-guesses=""
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}" data-guesses=""
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
-                        </td>
-                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}" data-guesses=""
+                        <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}" data-guesses="" data-row="0"
+                            data-col="2"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
                     </tr>
                     <tr>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}" data-guesses=""
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}" data-guesses="" data-row="1"
+                            data-col="0"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}" data-guesses=""
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}" data-guesses="" data-row="1"
+                            data-col="1"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
-                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}" data-guesses=""
+                        <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}" data-guesses="" data-row="1"
+                            data-col="2"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}" data-guesses="" data-row="2"
+                            data-col="0"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}" data-guesses="" data-row="2"
+                            data-col="1"
+                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                        </td>
+                        <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}" data-guesses="" data-row="2"
+                            data-col="2"
                             class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
                         </td>
                     </tr>
@@ -166,12 +209,69 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
-    <!-- Show how to play modal -->
+    <!-- On document load -->
     <script>
         $(document).ready(function () {
             $('#my-modal').removeClass('hidden')
-        });
+            if (localStorage.getItem('score')) {
+                score = Number(localStorage.getItem('score'));
+                $('#score').text(score);
+            } else {
+                $('#score').text('9');
+            }
 
+            var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses')) || [
+                [[], [], []],
+                [[], [], []],
+                [[], [], []]
+            ];
+            localStorage.setItem('correctGuesses', JSON.stringify(correctGuesses));
+
+            if (localStorage.getItem('correctGuessesLookup')) {
+                // If it does exist, retrieve it and convert it back into a Set
+                var correctGuessesLookup = new Set(JSON.parse(localStorage.getItem('correctGuessesLookup')));
+            } else {
+                // If it doesn't exist, initialize a new Set
+                var correctGuessesLookup = new Set();
+                // Convert the Set to an array and store it in localStorage
+                localStorage.setItem('correctGuessesLookup', JSON.stringify(Array.from(correctGuessesLookup)));
+            }
+
+
+            var cells = $('#board td');
+
+            // Iterate over each cell
+            cells.each(function (index, cell) {
+                var rowIndex = Math.floor(index / 3);
+                var colIndex = index % 3;
+                var playerInfo = correctGuesses[rowIndex][colIndex];
+
+                // If there was a correct guess for this cell, repopulate it
+                if (playerInfo.length !== 0) {
+                    $(cell).text(playerInfo[1]);
+                    $(cell).removeClass('hover:bg-slate-200');
+                    $(cell).removeClass('cursor-pointer');
+                    $(cell).addClass('bg-green-500');
+                    $(cell).addClass('cannot-click correct');
+                }
+            });
+
+            // If game over
+            if ($('#score').text() <= 0) {
+                $('#guess-modal').addClass('hidden');
+                $('#gameover-modal').removeClass('hidden');
+                $('td').addClass('cannot-click');
+                $('td').removeClass('cursor-pointer hover:bg-slate-200');
+                $('#my-modal').addClass('hidden');
+                visualizeResults();
+            }
+
+        });
+    </script>
+
+
+    <!-- Show how to play modal -->
+    <script>
         $('#howtoplay').on('click', function () {
             $('#my-modal').removeClass('hidden');
         });
@@ -206,9 +306,23 @@
     </script>
 
 
+    <!-- Hide guess modal -->
+    <script>
+        $('#gameoverclose').on('click', function () {
+            $('#gameover-modal').addClass('hidden');
+        });
+
+        $('#gameover-modal').on('click', function (event) {
+            if (!$(event.target).closest('#gameoverbox').length) {
+                $('#gameover-modal').addClass('hidden');
+            }
+        });
+    </script>
+
+
     <!-- After box is clicked on -->
     <script>
-        $("#board").on("click", "td:not(.guessed-right)", function () {
+        $("#board").on("click", "td:not(.cannot-click)", function () {
             var clickedBox = $(this);
             $('#guess-modal').removeClass('hidden');
             $('#guess-modal').data('selectedBox', clickedBox);
@@ -221,24 +335,27 @@
 
     <!-- AJAX search in guess modal -->
     <script>
-        function renderResults(results, previousGuesses) {
-            $('#results').empty(); // clear any previous results
+        function renderResults(results, previousGuesses, correctGuessesLookup) {
+            $('#results').empty();
             results.forEach(function (result) {
                 var resultElem = $('<div>');
-                var playerName = result['player']; // assuming result.name contains the player name
-                var playerYears = result['years']
+                var playerName = result['player'];
+                var playerYears = result['years'];
+                var playerId = result['id'];
+
+                if (correctGuessesLookup.has(playerId)) {
+                    return;
+                }
+
                 var button = $('<button>').text('Choose');
                 resultElem.addClass('flex justify-between items-center mx-2 p-2');
                 button.addClass('rounded-md border border-slate-300 bg-white px-4 py-2 text-black font-medium hover:invert duration-200');
 
                 // If this player has already been guessed for the current square, mark the result as incorrect
-                if (previousGuesses.includes(playerName)) {
+                if (previousGuesses.includes(playerId)) {
                     resultElem.addClass('bg-red-500');
                     button.text('Incorrect');
-                    // button.removeClass('hover:invert');
                     button.removeClass('border hover:invert border-slate-300 bg-white');
-                    // button.removeClass('border-slate-300');
-                    // button.removeClass('bg-white');
                     button.addClass('bg-red-500');
                     button.attr('disabled', true);
                 }
@@ -246,6 +363,7 @@
                 var nameAndYears = $('<div>').addClass('flex flex-col text-left')
                 var playerInfo = $('<p>').addClass('player-name').text(playerName);
                 var playerYears = $('<p>').text(playerYears);
+                playerInfo.data('id', playerId)
                 playerYears.addClass('text-xs')
                 nameAndYears.append(playerInfo).append(playerYears)
                 resultElem.append(nameAndYears);
@@ -257,7 +375,17 @@
         $('#search').on('input', function () {
             let query = $(this).val();
             selectedBox = $('#guess-modal').data('selectedBox');
-            var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];
+            rowIndex = selectedBox.data('row');
+            colIndex = selectedBox.data('col');
+
+            var guesses = JSON.parse(localStorage.getItem('guesses')) || [
+                [[], [], []],
+                [[], [], []],
+                [[], [], []]
+            ];
+
+            var previousGuesses = guesses[rowIndex][colIndex];
+            var correctGuessesLookup = new Set(JSON.parse(localStorage.getItem('correctGuessesLookup')));
 
             if (query === '') {
                 $('#results').empty()
@@ -271,7 +399,7 @@
                         },
                         success: function (data) {
                             $('#results').empty();
-                            renderResults(data, previousGuesses);
+                            renderResults(data, previousGuesses, correctGuessesLookup);
                         }
                     }
                 )
@@ -282,20 +410,54 @@
 
     <!-- When a user guesses a player -->
     <script>
+        // Creating grid for the end result grid
+        function visualizeResults() {
+            var resultGrid = $('#result-grid');
+            var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses'));
+
+            var correct = 0;
+            for (let i = 0; i < correctGuesses.length; i++) {
+                for (let j = 0; j < correctGuesses[i].length; j++) {
+                    if (correctGuesses[i][j].length !== 0) {
+                        correct++;
+                        var cell = $('#board td').eq(i * 3 + j);
+                        var resultCell = $(resultGrid.children()[i * 3 + j]);
+                        cell.addClass('bg-green-500');
+                        cell.removeClass('hover:bg-slate-200 cursor-pointer');
+                        resultCell.addClass('bg-green-500');
+                        resultCell.removeClass('bg-slate-300');
+                    }
+                }
+            }
+            $($('#finalscore').children()[1]).text(correct + '/9');
+        }
+
+
         $('#results').on('click', 'button', function () {
             var button = $(this);
             var playerName = $(this).siblings('div').children('.player-name').text();
-            console.log(playerName)
+            var playerId = $(this).siblings('div').children('.player-name').data('id');
             var selectedBox = $('#guess-modal').data('selectedBox');
 
             row = selectedBox.data('row-team');
             col = selectedBox.data('col-team');
 
+            rowIndex = selectedBox.data('row');
+            colIndex = selectedBox.data('col');
+
+            var guesses = JSON.parse(localStorage.getItem('guesses')) || [
+                [[], [], []],
+                [[], [], []],
+                [[], [], []]
+            ];
+            var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses'));
+            var correctGuessesLookup = new Set(JSON.parse(localStorage.getItem('correctGuessesLookup')));
+
             $.ajax({
                 type: "GET",
                 url: "api/check",
                 data: {
-                    player: playerName,
+                    player: playerId,
                     row: row,
                     col: col
                 },
@@ -305,9 +467,13 @@
                         selectedBox.removeClass('hover:bg-slate-200');
                         selectedBox.removeClass('cursor-pointer');
                         selectedBox.addClass('bg-green-500');
-                        selectedBox.addClass('guessed-right');
-                        selectedBox.data('guesses', '');
-
+                        selectedBox.addClass('cannot-click correct');
+                        guesses[rowIndex][colIndex] = [];
+                        correctGuesses[rowIndex][colIndex] = [playerId, playerName];
+                        correctGuessesLookup.add(playerId);
+                        localStorage.setItem('guesses', JSON.stringify(guesses));
+                        localStorage.setItem('correctGuesses', JSON.stringify(correctGuesses));
+                        localStorage.setItem('correctGuessesLookup', JSON.stringify(Array.from(correctGuessesLookup)));
                         $('#guess-modal').addClass('hidden');
                     } else {
                         button.parent().addClass('bg-red-500');
@@ -316,12 +482,28 @@
                         button.addClass('bg-red-500');
                         button.attr('disabled', true);
 
-                        var previousGuesses = selectedBox.data('guesses') ? selectedBox.data('guesses').split(',') : [];
-                        previousGuesses.push(playerName);
-                        selectedBox.data('guesses', previousGuesses.join(','));
+                        guesses[rowIndex][colIndex].push(playerId);
+                        localStorage.setItem('guesses', JSON.stringify(guesses));
                     }
                 }
             });
+
+
+            // Decrease score
+            var score = Number($('#score').text());
+            score -= 1;
+            localStorage.setItem('score', score);
+            $('#score').text(score);
+
+
+            // If game over
+            if ($('#score').text() <= 0) {
+                $('#guess-modal').addClass('hidden');
+                $('#gameover-modal').removeClass('hidden');
+                $('td').addClass('cannot-click');
+                $('td').removeClass('cursor-pointer hover:bg-slate-200');
+                visualizeResults();
+            }
         });
     </script>
 
