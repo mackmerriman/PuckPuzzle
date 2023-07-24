@@ -205,22 +205,16 @@
                     class="object-contain w-3/4" alt="{{teams.5}} Logo">
             </div>
         </div>
-
-        <!-- Footer
-        <div class="absolute bottom-0 w-full bg-black text-white text-center cursor-default">
-            <p>Created by MM.</p>
-        </div> -->
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-    <!-- On document load -->
     <script>
+        // On document load.
         $(document).ready(function () {
+            // Clear local storage after midnight each day.
             let lastAccessed = localStorage.getItem('lastAccessed');
 
-            // If it doesn't exist, it's our first run, so we'll set it to today's date.
             if (!lastAccessed) {
                 localStorage.setItem('lastAccessed', new Date().toDateString());
             } else {
@@ -237,7 +231,10 @@
                 }
             }
 
+            // Show instructions.
             $('#my-modal').removeClass('hidden')
+
+            // Restore score from prev. game.
             if (localStorage.getItem('score')) {
                 score = Number(localStorage.getItem('score'));
                 $('#score').text(score);
@@ -245,6 +242,7 @@
                 $('#score').text('9');
             }
 
+            // Load or initialize old/new game state.
             var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses')) || [
                 [[], [], []],
                 [[], [], []],
@@ -253,25 +251,22 @@
             localStorage.setItem('correctGuesses', JSON.stringify(correctGuesses));
 
             if (localStorage.getItem('correctGuessesLookup')) {
-                // If it does exist, retrieve it and convert it back into a Set
                 var correctGuessesLookup = new Set(JSON.parse(localStorage.getItem('correctGuessesLookup')));
             } else {
-                // If it doesn't exist, initialize a new Set
                 var correctGuessesLookup = new Set();
-                // Convert the Set to an array and store it in localStorage
                 localStorage.setItem('correctGuessesLookup', JSON.stringify(Array.from(correctGuessesLookup)));
             }
 
-
+            // Render board.
             var cells = $('#board td');
 
-            // Iterate over each cell
+            // Iterate over each cell.
             cells.each(function (index, cell) {
                 var rowIndex = Math.floor(index / 3);
                 var colIndex = index % 3;
                 var playerInfo = correctGuesses[rowIndex][colIndex];
 
-                // If there was a correct guess for this cell, repopulate it
+                // If there was a correct guess for this cell, repopulate it.
                 if (playerInfo.length !== 0) {
                     $(cell).text(playerInfo[1]);
                     $(cell).removeClass('hover:bg-slate-200');
@@ -280,7 +275,7 @@
                 }
             });
 
-            // If game over
+            // If game over.
             if ($('#score').text() <= 0) {
                 $('#guess-modal').addClass('hidden');
                 $('#gameover-modal').removeClass('hidden');
@@ -289,21 +284,42 @@
                 $('#my-modal').addClass('hidden');
                 visualizeResults();
             }
-
         });
-    </script>
 
+        // Creating grid for the end result grid
+        function visualizeResults() {
+            var resultGrid = $('#result-grid');
+            var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses'));
+            var clipResults = 'PuckPuzzle\n\n';
 
-    <!-- Show how to play modal -->
-    <script>
+            var correct = 0;
+            for (let i = 0; i < correctGuesses.length; i++) {
+                for (let j = 0; j < correctGuesses[i].length; j++) {
+                    if (correctGuesses[i][j].length !== 0) {
+                        correct++;
+                        var cell = $('#board td').eq(i * 3 + j);
+                        var resultCell = $(resultGrid.children()[i * 3 + j]);
+                        cell.addClass('bg-green-500');
+                        cell.removeClass('hover:bg-slate-200 cursor-pointer');
+                        resultCell.addClass('bg-green-500');
+                        resultCell.removeClass('bg-slate-300');
+                        clipResults += '🟩';
+                    } else {
+                        clipResults += '⬜️';
+                    }
+                }
+                clipResults += '\n';
+            }
+            clipResults += '\n\n';
+            $($('#finalscore').children()[1]).text(correct + '/9');
+        }
+
+        // Show instructions modal when navbar button is clicked.
         $('#howtoplay').on('click', function () {
             $('#my-modal').removeClass('hidden');
         });
-    </script>
 
-
-    <!-- Hide how to play modal -->
-    <script>
+        // Hide instructions modal when button or outside of modal is clicked.
         $('#howtoplayclose').on('click', function () {
             $('#my-modal').addClass('hidden');
         });
@@ -313,11 +329,18 @@
                 $('#my-modal').addClass('hidden');
             }
         });
-    </script>
 
+        // Open guess modal on box click.
+        $("#board").on("click", "td:not(.cannot-click)", function () {
+            var clickedBox = $(this);
+            $('#guess-modal').removeClass('hidden');
+            $('#guess-modal').data('selectedBox', clickedBox);
+            $('#search').val('')
+            $('#search').focus()
+            $('#results').empty();
+        });
 
-    <!-- Hide guess modal -->
-    <script>
+        // Close guess modal on button or outside modal click.
         $('#guessclose').on('click', function () {
             $('#guess-modal').addClass('hidden');
         });
@@ -327,11 +350,8 @@
                 $('#guess-modal').addClass('hidden');
             }
         });
-    </script>
 
-
-    <!-- Hide guess modal -->
-    <script>
+        // Hide game over modal on button or out of modal click.
         $('#gameoverclose').on('click', function () {
             $('#gameover-modal').addClass('hidden');
         });
@@ -341,24 +361,8 @@
                 $('#gameover-modal').addClass('hidden');
             }
         });
-    </script>
 
-
-    <!-- After box is clicked on -->
-    <script>
-        $("#board").on("click", "td:not(.cannot-click)", function () {
-            var clickedBox = $(this);
-            $('#guess-modal').removeClass('hidden');
-            $('#guess-modal').data('selectedBox', clickedBox);
-            $('#search').val('')
-            $('#search').focus()
-            $('#results').empty();
-        });
-    </script>
-
-
-    <!-- AJAX search in guess modal -->
-    <script>
+        // Handle requests when user provides input in guess modal.
         function renderResults(results, previousGuesses, correctGuessesLookup) {
             $('#results').empty();
             results.forEach(function (result) {
@@ -429,40 +433,8 @@
                 )
             }
         });
-    </script>
 
-
-    <!-- When a user guesses a player -->
-    <script>
-        // Creating grid for the end result grid
-        function visualizeResults() {
-            var resultGrid = $('#result-grid');
-            var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses'));
-            var clipResults = 'PuckPuzzle\n\n';
-
-            var correct = 0;
-            for (let i = 0; i < correctGuesses.length; i++) {
-                for (let j = 0; j < correctGuesses[i].length; j++) {
-                    if (correctGuesses[i][j].length !== 0) {
-                        correct++;
-                        var cell = $('#board td').eq(i * 3 + j);
-                        var resultCell = $(resultGrid.children()[i * 3 + j]);
-                        cell.addClass('bg-green-500');
-                        cell.removeClass('hover:bg-slate-200 cursor-pointer');
-                        resultCell.addClass('bg-green-500');
-                        resultCell.removeClass('bg-slate-300');
-                        clipResults += '🟩';
-                    } else {
-                        clipResults += '⬜️';
-                    }
-                }
-                clipResults += '\n';
-            }
-            clipResults += '\n\n';
-            $($('#finalscore').children()[1]).text(correct + '/9');
-        }
-
-
+        // Handle when a user guesses a player.
         $('#results').on('click', 'button', function () {
             var button = $(this);
             var playerName = $(this).siblings('div').children('.player-name').text();
@@ -516,13 +488,11 @@
                 }
             });
 
-
             // Decrease score
             var score = Number($('#score').text());
             score -= 1;
             localStorage.setItem('score', score);
             $('#score').text(score);
-
 
             // If game over
             if ($('#score').text() <= 0) {
@@ -534,9 +504,6 @@
             }
         });
     </script>
-
-
 </body>
-
 
 </html>
