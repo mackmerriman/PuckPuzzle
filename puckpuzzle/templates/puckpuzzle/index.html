@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{% static 'puckpuzzle/output.css' %}">
     <link rel="stylesheet" href="{% static 'puckpuzzle/style.css' %}">
     <title>{% block title %}PuckPuzzle{% endblock %}</title>
@@ -10,16 +11,17 @@
 
 <body>
     <!-- Main container -->
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-screen dark:bg-gray-900">
 
         <!-- Header container -->
         <div class="flex flex-row justify-between bg-black text-white">
-            <div class="flex items-center m-3 space-x-3">
-                <img src="../../static/puckpuzzle/images/favicon.jpg" class="w-12 h-12 invert" alt="PuckPuzzle Logo">
-                <h1 class="text-3xl cursor-default">PuckPuzzle</h1>
+            <div class="flex items-center m-3 md:space-x-3">
+                <img src="../../static/puckpuzzle/images/favicon.jpg" class="w-8 h-8 md:w-12 md:h-12 invert"
+                    alt="PuckPuzzle Logo">
+                <h1 class="text-lg md:text-3xl cursor-default">PuckPuzzle</h1>
             </div>
             <div class="flex items-center m-3">
-                <nav class="text-xl space-x-6">
+                <nav class="text-base md:text-xl">
                     <a id="howtoplay" class="hover:text-orange-500 cursor-pointer">How To Play</a>
                 </nav>
             </div>
@@ -29,14 +31,15 @@
         <div id="my-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
             <div class="flex justify-center items-center min-h-screen text-center">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                <div id="mybox" class="bg-white transform p-10">
-                    <div>
-                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                <div id="mybox"
+                    class="flex flex-col max-w-xs md:max-w-full bg-white dark:bg-gray-900 dark:text-white transform p-10">
+                    <div class="">
+                        <h1 class="md:text-xl font-bold" id="modal-title">
                             Welcome to PuckPuzzle! Here are some rules.
                         </h1>
                     </div>
-                    <div>
-                        <ul class="list-disc text-left">
+                    <div class="mt-5">
+                        <ul class="text-xs md:text-base list-disc text-left">
                             <li>Guesses cannot be reversed.</li>
                             <li>Every guess counts as a shot.</li>
                             <li>Choose a past or present NHL player who has played for the team / completed the accolade
@@ -48,7 +51,7 @@
                     </div>
                     <div class="mt-5">
                         <button type="button" id="howtoplayclose"
-                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white dark:bg-gray-900 dark:text-white text-black font-medium hover:invert duration-200">
                             Close
                         </button>
                     </div>
@@ -60,22 +63,23 @@
         <div id="guess-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
             <div class="flex justify-center items-center min-h-screen">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-200"></div>
-                <div id="guessbox" class="bg-white text-center transform p-10 max-h-3/4 w-1/2">
+                <div id="guessbox"
+                    class="flex flex-col w-full md:max-w-full bg-white dark:bg-gray-900 dark:text-white text-center transform p-10 max-h-3/4 md:w-1/2">
                     <div>
-                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                        <h1 class="md:text-xl text-base font-bold" id="modal-title">
                             Make your guess here.
                         </h1>
                     </div>
                     <div class="mt-5">
-                        <input type="text" id="search" placeholder="Search for a player..."
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-black font-medium"
+                        <input type="text" id="search" placeholder="Search..."
+                            class="w-full rounded-md border border-gray-300 px-4 py-2 bg-white dark:bg-gray-900 dark:text-white text-black font-medium"
                             autocomplete="off" autocorrect="off" spellcheck="false">
                     </div>
                     <div class="mt-5 overflow-auto max-h-56" id="results">
                     </div>
                     <div class="mt-5">
                         <button type="button" id="guessclose"
-                            class="w-full border border-slate-300 rounded-md px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            class="w-full border border-slate-300 rounded-md px-4 py-2 bg-white text-black dark:bg-gray-900 dark:text-white font-medium hover:invert duration-200">
                             Close
                         </button>
                     </div>
@@ -87,17 +91,18 @@
         <div id="gameover-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
             <div class="flex justify-center items-center min-h-screen text-center">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                <div id="gameoverbox" class="bg-white transform p-10">
+                <div id="gameoverbox"
+                    class="max-w-xs md:max-w-full bg-white dark:bg-gray-900 dark:text-white transform p-10">
                     <div>
-                        <h1 class="text-xl font-bold text-black" id="modal-title">
+                        <h1 class="md:text-xl font-bold" id="modal-title">
                             Game Over
                         </h1>
                     </div>
                     <div id="finalscore" class="flex flex-col mt-5">
-                        <p class="text-lg">Final Score:</p>
-                        <p class="text-2xl font-bold"></p>
+                        <p class="text-base md:text-lg">Final Score:</p>
+                        <p class="text-lg md:text-2xl font-bold"></p>
                     </div>
-                    <div id="result-grid" class="grid grid-cols-3 grid-rows-3 gap-2 w-52 h-52 mt-5">
+                    <div id="result-grid" class="grid grid-cols-3 grid-rows-3 gap-2 w-40 h-40 md:w-52 md:h-52 mt-5">
                         <div class="bg-slate-300 rounded-xl"></div>
                         <div class="bg-slate-300 rounded-xl"></div>
                         <div class="bg-slate-300 rounded-xl"></div>
@@ -110,7 +115,7 @@
                     </div>
                     <div class="mt-5">
                         <button type="button" id="gameoverclose"
-                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black font-medium hover:invert duration-200">
+                            class="w-full rounded-md border border-slate-300 px-4 py-2 bg-white text-black dark:bg-gray-900 dark:text-white font-medium hover:invert duration-200">
                             Close
                         </button>
                     </div>
@@ -119,91 +124,92 @@
         </div>
 
         <!-- Main grid container -->
-        <div class="grid grid-cols-4 grid-rows-4 text-center self-center">
-            <div class="flex flex-col justify-center items-center w-36 h-36 overflow-hidden">
-                <div class="text-2xl font-bold">
+        <div
+            class="grid grid-cols-4 grid-rows-4 text-center gap-1 overflow-hidden left-0 right-0 mx-auto mt-3 shrink-0">
+            <div class="flex flex-col justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
+                <div class="md:text-2xl font-bold dark:text-white">
                     <h1>Shots left:</h1>
                 </div>
-                <div class="text-2xl">
+                <div class="md:text-2xl dark:text-white">
                     <p id="score"></p>
                 </div>
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.0|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.0}} Logo">
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.1|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.1}} Logo">
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.2|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.2}} Logo">
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.3|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.3}} Logo">
             </div>
             <div class="col-span-3 row-span-3 overflow-hidden">
-                <table id="board" class="w-full h-full">
+                <table id="board" class="">
                     <tr>
                         <td data-row-team="{{teams.3}}" data-col-team="{{teams.0}}" data-guesses="" data-row="0"
                             data-col="0"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.3}}" data-col-team="{{teams.1}}" data-guesses="" data-row="0"
                             data-col="1"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.3}}" data-col-team="{{teams.2}}" data-guesses="" data-row="0"
                             data-col="2"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                     </tr>
                     <tr>
                         <td data-row-team="{{teams.4}}" data-col-team="{{teams.0}}" data-guesses="" data-row="1"
                             data-col="0"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.4}}" data-col-team="{{teams.1}}" data-guesses="" data-row="1"
                             data-col="1"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.4}}" data-col-team="{{teams.2}}" data-guesses="" data-row="1"
                             data-col="2"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                     </tr>
                     <tr>
                         <td data-row-team="{{teams.5}}" data-col-team="{{teams.0}}" data-guesses="" data-row="2"
                             data-col="0"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.5}}" data-col-team="{{teams.1}}" data-guesses="" data-row="2"
                             data-col="1"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                         <td data-row-team="{{teams.5}}" data-col-team="{{teams.2}}" data-guesses="" data-row="2"
                             data-col="2"
-                            class="border-2 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer w-36 h-36">
+                            class="border dark:border-slate-500 border-slate-300 hover:bg-slate-200 duration-200 cursor-pointer md:w-36 md:h-36 w-20 h-20">
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.4|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.4}} Logo">
             </div>
-            <div class="flex justify-center items-center w-36 h-36 overflow-hidden">
+            <div class="flex justify-center items-center overflow-hidden md:w-36 md:h-36 w-20 h-20">
                 <img src="{% static 'puckpuzzle/images/logos/'|add:teams.5|add:'.svg.png' %}"
                     class="object-contain w-3/4" alt="{{teams.5}} Logo">
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Footer
         <div class="absolute bottom-0 w-full bg-black text-white text-center cursor-default">
             <p>Created by MM.</p>
-        </div>
+        </div> -->
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -212,6 +218,25 @@
     <!-- On document load -->
     <script>
         $(document).ready(function () {
+            let lastAccessed = localStorage.getItem('lastAccessed');
+
+            // If it doesn't exist, it's our first run, so we'll set it to today's date.
+            if (!lastAccessed) {
+                localStorage.setItem('lastAccessed', new Date().toDateString());
+            } else {
+                // If it does exist, we need to check if it's past midnight of the lastAccessed date
+                let today = new Date();
+                let lastAccessedDate = new Date(lastAccessed);
+                lastAccessedDate.setDate(lastAccessedDate.getDate() + 1);
+                if (today > lastAccessedDate) {
+                    // If it is, we'll reset our game state and update the lastAccessed date
+                    localStorage.setItem('lastAccessed', today.toDateString());
+                    localStorage.removeItem('score');
+                    localStorage.removeItem('correctGuesses');
+                    localStorage.removeItem('correctGuessesLookup');
+                }
+            }
+
             $('#my-modal').removeClass('hidden')
             if (localStorage.getItem('score')) {
                 score = Number(localStorage.getItem('score'));
@@ -251,8 +276,7 @@
                     $(cell).text(playerInfo[1]);
                     $(cell).removeClass('hover:bg-slate-200');
                     $(cell).removeClass('cursor-pointer');
-                    $(cell).addClass('bg-green-500');
-                    $(cell).addClass('cannot-click correct');
+                    $(cell).addClass('bg-green-500 cannot-click correct text-xs md:text-base');
                 }
             });
 
@@ -348,8 +372,8 @@
                 }
 
                 var button = $('<button>').text('Choose');
-                resultElem.addClass('flex justify-between items-center mx-2 p-2');
-                button.addClass('rounded-md border border-slate-300 bg-white px-4 py-2 text-black font-medium hover:invert duration-200');
+                resultElem.addClass('flex justify-between items-center mx-2 p-2 dark:bg-gray-900 dark:text-white');
+                button.addClass('rounded-md border border-slate-300 dark:bg-gray-900 dark:text-white bg-white px-4 py-2 text-black font-medium hover:invert duration-200');
 
                 // If this player has already been guessed for the current square, mark the result as incorrect
                 if (previousGuesses.includes(playerId)) {
@@ -361,7 +385,7 @@
                 }
 
                 var nameAndYears = $('<div>').addClass('flex flex-col text-left')
-                var playerInfo = $('<p>').addClass('player-name').text(playerName);
+                var playerInfo = $('<p>').addClass('player-name md:text-base text-sm').text(playerName);
                 var playerYears = $('<p>').text(playerYears);
                 playerInfo.data('id', playerId)
                 playerYears.addClass('text-xs')
@@ -414,6 +438,7 @@
         function visualizeResults() {
             var resultGrid = $('#result-grid');
             var correctGuesses = JSON.parse(localStorage.getItem('correctGuesses'));
+            var clipResults = 'PuckPuzzle\n\n';
 
             var correct = 0;
             for (let i = 0; i < correctGuesses.length; i++) {
@@ -426,9 +451,14 @@
                         cell.removeClass('hover:bg-slate-200 cursor-pointer');
                         resultCell.addClass('bg-green-500');
                         resultCell.removeClass('bg-slate-300');
+                        clipResults += '🟩';
+                    } else {
+                        clipResults += '⬜️';
                     }
                 }
+                clipResults += '\n';
             }
+            clipResults += '\n\n';
             $($('#finalscore').children()[1]).text(correct + '/9');
         }
 
@@ -464,10 +494,8 @@
                 success: function (data) {
                     if (data['result']) {
                         selectedBox.text(playerName);
-                        selectedBox.removeClass('hover:bg-slate-200');
-                        selectedBox.removeClass('cursor-pointer');
-                        selectedBox.addClass('bg-green-500');
-                        selectedBox.addClass('cannot-click correct');
+                        selectedBox.removeClass('hover:bg-slate-200 cursor-pointer');
+                        selectedBox.addClass('bg-green-500 cannot-click correct text-xs md:text-base');
                         guesses[rowIndex][colIndex] = [];
                         correctGuesses[rowIndex][colIndex] = [playerId, playerName];
                         correctGuessesLookup.add(playerId);
