@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-jk+cq=e25=z31xw(-y9a%!t)2pn&9!m^d*vet3c&mxv1jm(q5c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.116', '0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.116', '0.0.0.0',
+                 '127.0.0.1', 'puckpuzzle.onrender.com']
 
 
 # Application definition
