@@ -1,6 +1,6 @@
 # PuckPuzzle
 
-Visit PuckPuzzle at[puckpuzzle.onrender.com](https://puckpuzzle.onrender.com)
+Visit PuckPuzzle at [puckpuzzle.onrender.com](https://puckpuzzle.onrender.com)
 
 ## About The App
 

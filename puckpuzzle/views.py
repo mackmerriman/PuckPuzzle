@@ -7,8 +7,6 @@ from django.utils import timezone
 from django.db.models import Q
 from .models import Players, DailyGame
 
-# from .models import Question EXAMPLE
-
 
 # ...
 def index(request):
