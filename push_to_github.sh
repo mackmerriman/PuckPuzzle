@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd PuckPuzzle/
+cd PuckPuzzle
+. .PPvenv/bin/activate
+python manage.py create_daily_game
 git add .
-git commit -m "Automated nightly push"
+git commit -m "Daily game"
 git push origin main
