@@ -10,9 +10,9 @@ from .models import Players, DailyGame
 
 # ...
 def index(request):
-    today = timezone.now().date()
-    game = DailyGame.objects.get(date=today)
-    return render(request, 'puckpuzzle/index.html', {'teams': game.teams})
+    # today = timezone.now().date()
+    # game = DailyGame.objects.get(date=today)
+    return render(request, 'puckpuzzle/index.html', {'teams': ['Vancouver', 'Toronto', 'Anaheim', 'Vegas', 'New Jersey', 'Edmonton']})
 
 
 def filterPlayers(request):
