@@ -1,0 +1,4 @@
+cron:
+  - description: "Create daily game at midnight"
+    url: /tasks/create_daily_game/
+    schedule: every day 04:00

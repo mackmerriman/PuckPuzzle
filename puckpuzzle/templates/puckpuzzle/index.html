@@ -227,6 +227,7 @@
                     // If it is, we'll reset our game state and update the lastAccessed date
                     localStorage.setItem('lastAccessed', today.toDateString());
                     localStorage.removeItem('score');
+                    localStorage.removeItem('guesses');
                     localStorage.removeItem('correctGuesses');
                     localStorage.removeItem('correctGuessesLookup');
                 }

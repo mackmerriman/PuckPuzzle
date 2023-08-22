@@ -6,13 +6,27 @@ from django.views import View
 from django.utils import timezone
 from django.db.models import Q
 from .models import Players, DailyGame
+from django.core.management import call_command
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def run_daily_game_creation(request):
+    # Ensure the request is from App Engine Cron
+    if 'HTTP_X_APPENGINE_CRON' not in request.headers:
+        return HttpResponse('Unauthorized', status=403)
+
+    # Call the management command
+    call_command('create_daily_game')
+
+    return HttpResponse('Task executed')
 
 
 # ...
 def index(request):
-    # today = timezone.now().date()
-    # game = DailyGame.objects.get(date=today)
-    return render(request, 'puckpuzzle/index.html', {'teams': ['Vancouver', 'Toronto', 'Anaheim', 'Vegas', 'New Jersey', 'Edmonton']})
+    today = timezone.now().date()
+    game = DailyGame.objects.get(date=today)
+    return render(request, 'puckpuzzle/index.html', {'teams': game.teams})
 
 
 def filterPlayers(request):
