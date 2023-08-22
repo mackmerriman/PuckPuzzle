@@ -23,10 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jk+cq=e25=z31xw(-y9a%!t)2pn&9!m^d*vet3c&mxv1jm(q5c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.1.116', '0.0.0.0',
-                 '127.0.0.1', 'puckpuzzle.onrender.com']
+                 '127.0.0.1', 'puckpuzzle.onrender.com',
+                 'phrasal-lantern-396617.uk.r.appspot.com',
+                 'puckpuzzle.uk.r.appspot.com']
 
 
 # Application definition
@@ -52,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 ROOT_URLCONF = 'app.urls'
 

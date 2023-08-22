@@ -1,0 +1,6 @@
+runtime: python311
+entrypoint: gunicorn app.wsgi:application
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "app.settings"
+  # Add other environment variables as needed.
